@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Relatório Executivo de Custos Estimados | Hermes v2</title>
+  <title>Relatório Executivo de Custos Estimados | Hermes v2 (Minimalista)</title>
   <style>
-    /* Elegant Clean Minimalist Design System */
+    /* Elegant Clean Minimalist Swiss-Inspired Design System */
     :root {
-      --bg: #f8fafc;
-      --bg-card: #ffffff;
+      --bg: #ffffff;
+      --bg-card: #f8fafc;
       --bg-surface: #f1f5f9;
       --text-primary: #0f172a;
       --text-secondary: #475569;
-      --text-muted: #94a3b8;
+      --text-muted: #64748b;
       --border: #e2e8f0;
       --brand-blue: #2563eb;
       --brand-amber: #d97706;
       --brand-success: #10b981;
       --brand-error: #ef4444;
-      --transition: all 0.2s ease-in-out;
+      --transition: all 0.15s ease-in-out;
     }
 
     /* Dark Mode Theme */
     html.dark {
       --bg: #030712;
-      --bg-card: #0f172a;
-      --bg-surface: #1e293b;
+      --bg-card: #0f172a80;
+      --bg-surface: #0f172a;
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
@@ -41,12 +41,13 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
       color: var(--text-primary);
       line-height: 1.5;
       transition: var(--transition);
       -webkit-font-smoothing: antialiased;
+      padding-bottom: 64px;
     }
 
     /* Navbar styling */
@@ -54,14 +55,15 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background-color: var(--bg-card);
+      background-color: var(--bg);
       border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
+      padding: 12px 24px;
       transition: var(--transition);
+      backdrop-filter: blur(8px);
     }
 
     .nav-container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -103,7 +105,7 @@
       background-color: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 3px;
+      padding: 2px;
     }
 
     .toggle-btn {
@@ -119,7 +121,7 @@
     }
 
     .toggle-btn.active {
-      background-color: var(--bg-card);
+      background-color: var(--bg);
       color: var(--brand-blue);
       box-shadow: 0 1px 2px rgba(0,0,0,0.05);
       border: 1px solid var(--border);
@@ -127,13 +129,13 @@
 
     html.dark .toggle-btn.active {
       color: #ffffff;
-      background-color: #334155;
+      background-color: #1e293b;
     }
 
     .btn-icon {
       background: none;
       border: 1px solid var(--border);
-      background-color: var(--bg-surface);
+      background-color: var(--bg-card);
       color: var(--text-secondary);
       padding: 6px;
       border-radius: 6px;
@@ -151,7 +153,7 @@
 
     .btn-primary {
       background-color: var(--text-primary);
-      color: var(--bg-card);
+      color: var(--bg);
       border: none;
       padding: 6px 14px;
       font-size: 11px;
@@ -164,20 +166,26 @@
       transition: var(--transition);
     }
 
+    html.dark .btn-primary {
+      background-color: #1e293b;
+      color: #ffffff;
+      border: 1px solid var(--border);
+    }
+
     .btn-primary:hover {
       opacity: 0.9;
     }
 
-    /* Main Grid Structure */
+    /* Main Container Structure */
     .container {
-      max-width: 1000px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 24px 16px 48px 16px;
+      padding: 40px 24px;
     }
 
     header {
       border-bottom: 1px solid var(--border);
-      padding-bottom: 20px;
+      padding-bottom: 24px;
       margin-bottom: 32px;
       display: flex;
       flex-direction: column;
@@ -216,7 +224,7 @@
     }
 
     .subtitle {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--text-secondary);
       margin-top: 2px;
@@ -226,7 +234,7 @@
       font-family: monospace;
       font-size: 11px;
       color: var(--text-secondary);
-      text-align: center;
+      text-align: left;
     }
 
     @media (min-width: 640px) {
@@ -235,53 +243,56 @@
       }
     }
 
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
+    .section-block {
+      margin-bottom: 32px;
     }
 
-    @media (min-width: 1024px) {
-      .dashboard-grid {
-        grid-template-columns: 2fr 1fr;
-      }
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-family: monospace;
+      margin-bottom: 12px;
     }
 
-    .main-column, .side-column {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    /* Component Cards */
+    /* Content Cards */
     .card {
       background-color: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 24px;
+      padding: 20px;
       transition: var(--transition);
     }
 
-    .minimalist-header {
-      border-left: 3px solid var(--brand-blue);
-      padding-left: 8px;
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-secondary);
-    }
-
     .resumo-text {
-      font-size: 14px;
+      font-size: 13.5px;
       color: var(--text-secondary);
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
+    }
+
+    .bullet-list {
+      list-style-type: none;
+      padding-left: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bullet-item {
+      position: relative;
+      font-size: 13px;
+    }
+
+    .bullet-item::before {
+      content: "•";
+      color: var(--brand-blue);
+      font-weight: bold;
+      position: absolute;
+      left: -14px;
     }
 
     .code-tag {
@@ -290,16 +301,14 @@
       border-radius: 4px;
       padding: 1px 5px;
       font-family: monospace;
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-primary);
     }
 
     .info-callout {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 14px;
-      font-size: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      font-size: 11.5px;
       color: var(--text-secondary);
       display: flex;
       gap: 8px;
@@ -307,73 +316,16 @@
     }
 
     .info-callout svg {
-      color: var(--text-muted);
+      color: var(--brand-amber);
       flex-shrink: 0;
       margin-top: 2px;
-    }
-
-    /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    @media (min-width: 640px) {
-      .stats-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .stat-card {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 16px 12px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 100px;
-    }
-
-    .stat-label {
-      font-size: 9px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-secondary);
-      font-family: monospace;
-    }
-
-    .stat-value {
-      font-size: 18px;
-      font-weight: 700;
-      font-family: monospace;
-      color: var(--text-primary);
-      margin: 8px 0;
-    }
-
-    .stat-value.brand {
-      color: var(--brand-blue);
-    }
-
-    .stat-value.amber {
-      color: var(--brand-amber);
-    }
-
-    .stat-sub {
-      font-size: 9px;
-      color: var(--text-muted);
     }
 
     /* Table styling */
     .table-container {
       overflow-x: auto;
       border: 1px solid var(--border);
-      border-radius: 6px;
-      margin: 16px 0;
+      border-radius: 8px;
     }
 
     table {
@@ -388,12 +340,13 @@
       color: var(--text-secondary);
       font-family: monospace;
       font-weight: 600;
-      padding: 10px 12px;
+      padding: 10px 14px;
       border-bottom: 1px solid var(--border);
+      opacity: 0.9;
     }
 
     td {
-      padding: 10px 12px;
+      padding: 11px 14px;
       border-bottom: 1px solid var(--border);
       color: var(--text-secondary);
     }
@@ -411,62 +364,59 @@
     }
 
     .td-bold {
-      font-weight: 600;
+      font-weight: 750;
       color: var(--text-primary);
     }
 
-    .badge-success {
-      display: inline-block;
-      padding: 2px 6px;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--brand-success);
-      background-color: rgba(16, 185, 129, 0.1);
-      border-radius: 4px;
+    /* Operational and Projections Grid */
+    .operacional-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .operacional-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .log-panel {
       font-family: monospace;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .log-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 4px;
     }
 
     /* Simulator */
     .simulator-box {
-      background-color: var(--bg-surface);
+      background-color: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 16px;
-      margin-top: 16px;
+      border-radius: 8px;
+      padding: 20px;
     }
 
-    .simulator-title-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-
-    .simulator-title {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-primary);
-      font-family: monospace;
-    }
-
-    .simulator-inputs {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .slider-label-row {
+    .simulator-header {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       font-size: 12px;
+      margin-bottom: 12px;
     }
 
     .slider-value {
       font-weight: 700;
       color: var(--brand-blue);
       font-family: monospace;
+      font-size: 13.5px;
     }
 
     .range-input {
@@ -493,76 +443,30 @@
       font-size: 9px;
       color: var(--text-muted);
       font-family: monospace;
-    }
-
-    .simulator-results {
-      margin-top: 12px;
-    }
-
-    .sim-result-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 14px;
-      border-radius: 4px;
-      text-align: center;
-    }
-
-    .sim-result-label {
-      font-size: 9px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-    }
-
-    .sim-result-value {
-      font-size: 15px;
-      font-weight: 700;
-      font-family: monospace;
-      color: var(--text-primary);
       margin-top: 4px;
     }
 
-    /* Highlights */
-    .highlight-box {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border);
+    .sim-result-card {
+      margin-top: 16px;
+      border: 1px dashed var(--border);
+      padding: 12px;
       border-radius: 6px;
-      padding: 16px;
       display: flex;
-      gap: 10px;
-      align-items: start;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--bg);
     }
 
-    .highlight-box svg {
-      color: var(--text-secondary);
-      flex-shrink: 0;
-      margin-top: 2px;
+    .sim-result-label {
+      font-size: 11px;
+      font-weight: 600;
     }
 
-    .highlight-text {
-      font-size: 12px;
-      color: var(--text-secondary);
-    }
-
-    .bullet-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .bullet-item {
-      display: flex;
-      gap: 8px;
-      align-items: start;
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .bullet-dot {
-      color: var(--brand-blue);
+    .sim-result-value {
+      font-size: 16px;
       font-weight: 700;
-      line-height: 1;
+      font-family: monospace;
+      color: var(--brand-blue);
     }
 
     /* Footer */
@@ -580,7 +484,7 @@
       margin-top: 4px;
     }
 
-    /* Print styling overrides */
+    /* Print overrides */
     @media print {
       body {
         background-color: white !important;
@@ -593,15 +497,12 @@
         max-width: 100% !important;
         padding: 0 !important;
       }
-      .dashboard-grid {
-        grid-template-columns: 1fr !important;
-      }
-      .card {
+      .card, .table-container {
         border: none !important;
         border-bottom: 1px solid #ddd !important;
         border-radius: 0 !important;
+        background-color: transparent !important;
         padding: 16px 0 !important;
-        box-shadow: none !important;
       }
     }
   </style>
@@ -613,31 +514,28 @@
     <div class="nav-container">
       <div class="nav-status">
         <span class="status-dot"></span>
-        <span style="font-weight: 600;">Painel Executivo Hermes v2</span>
+        <span style="font-weight: 600;">Hermes v2 — Relatório Minimalista</span>
         <span style="opacity: 0.3;">|</span>
-        <span style="display: flex; align-items: center; gap: 4px;">
-          <!-- Calendar Icon -->
+        <span style="display: flex; align-items: center; gap: 4px; opacity: 0.7;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-          Ref: Junho / 2026
+          Junho / 2026
         </span>
       </div>
 
       <div class="nav-actions">
-        <!-- Theme Toggle Button -->
-        <button id="theme-toggle" class="btn-icon" title="Alternar tema">
-          <!-- Sun Icon -->
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="btn-icon" title="Alternar Modo Claro/Escuro">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
         </button>
 
-        <!-- Currency Selector -->
+        <!-- Currency Switcher -->
         <div class="toggle-group">
-          <button id="curr-brl" class="toggle-btn active" onclick="setCurrency('BRL')">BRL (R$)</button>
-          <button id="curr-usd" class="toggle-btn" onclick="setCurrency('USD')">USD ($)</button>
+          <button id="curr-brl" class="toggle-btn active" onclick="setCurrency('BRL')">BRL</button>
+          <button id="curr-usd" class="toggle-btn" onclick="setCurrency('USD')">USD</button>
         </div>
 
-        <!-- Print Action -->
+        <!-- Print -->
         <button class="btn-primary" onclick="window.print()">
-          <!-- Printer Icon -->
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect width="12" height="8" x="6" y="14" rx="1"/></svg>
           Imprimir
         </button>
@@ -645,404 +543,256 @@
     </div>
   </nav>
 
-  <!-- Main Container -->
+  <!-- Main Report Document -->
   <main class="container">
     
     <!-- Header -->
     <header>
       <div>
-        <p class="header-info-tag">Demonstrativo de Custos Consolidados GCP</p>
+        <p class="header-info-tag">Demonstrativo Financeiro Gerencial</p>
         <h1 class="title">Relatório Executivo de Custos Estimados</h1>
         <h2 class="subtitle">Hermes | Junho de 2026</h2>
       </div>
       <div class="header-meta">
-        <p>Gerado em: 06/07/2026</p>
-        <p>Câmbio de Ref: 1 USD = R$ 5,45</p>
+        <p>Emissão: 06/07/2026</p>
+        <p>Referência: 1 USD = R$ 5,45</p>
       </div>
     </header>
 
-    <!-- Dashboard Content Grid -->
-    <div class="dashboard-grid">
+    <!-- Section 1: Resumo Executivo -->
+    <section class="section-block">
+      <h3 class="section-title">1. Resumo Executivo</h3>
+      <div class="card resumo-text">
+        <p>Visão executiva simplificada dos custos do <strong>Hermes</strong> em junho de 2026, projetada com foco em transparência metodológica para apoiar decisões estratégicas:</p>
+        <ul class="bullet-list">
+          <li class="bullet-item">
+            <strong>Custo Direto:</strong> O principal faturamento diretamente atribuível ao Hermes é o <span class="code-tag">Vertex AI</span>.
+          </li>
+          <li class="bullet-item">
+            <strong>Custo Operacional Webhook:</strong> O tráfego do endpoint analisado em Cloud Run gerou um impacto residual na camada básica de computação.
+          </li>
+          <li class="bullet-item">
+            <strong>Custos Compartilhados / Não Atribuídos:</strong> Recursos como <span class="code-tag">Cloud Run Functions</span>, <span class="code-tag">Cloud Run</span> e <span class="code-tag">Cloud Build</span> pertencem ao faturamento geral da conta e não são de atribuição exclusiva.
+          </li>
+        </ul>
+        <div class="info-callout">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12" y1="17" y2="17"/></svg>
+          <span><strong>Nota Executiva:</strong> Este é um demonstrativo gerencial, não um rateio contábil fechado ou auditoria exata.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Demonstrativo Consolidado -->
+    <section class="section-block">
+      <h3 class="section-title">2. Demonstrativo Consolidado de Custos</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Serviço GCP</th>
+              <th>Classificação</th>
+              <th class="td-right">Valor Período</th>
+              <th>Comentário Executivo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-bold">Vertex AI</td>
+              <td><span style="color: var(--brand-success); font-weight: 600;">Diretamente Atribuível</span></td>
+              <td class="td-right td-mono td-bold" id="tbl-vertex" style="color: var(--brand-success);">R$ 41,81</td>
+              <td>Custo real observado exclusivo do Hermes.</td>
+            </tr>
+            <tr style="background-color: rgba(217, 119, 6, 0.04);">
+              <td class="td-bold">Cloud Run Functions</td>
+              <td><span style="color: var(--brand-amber); font-weight: 600;">Não Atribuído</span></td>
+              <td class="td-right td-mono td-bold" id="tbl-functions" style="color: var(--brand-amber);">R$ 101,90</td>
+              <td>Custo relevante na conta; exige auditoria futura.</td>
+            </tr>
+            <tr>
+              <td>Cloud Run (Geral)</td>
+              <td><span style="color: var(--text-muted);">Compartilhado</span></td>
+              <td class="td-right td-mono" id="tbl-run">R$ 1,05</td>
+              <td>Uso compartilhado entre múltiplos workloads.</td>
+            </tr>
+            <tr>
+              <td>Cloud Build (Geral)</td>
+              <td><span style="color: var(--text-muted);">Compartilhado</span></td>
+              <td class="td-right td-mono" id="tbl-build">R$ 0,00</td>
+              <td>Consumo residual: <span class="td-mono" id="tbl-build-residue">R$ 0,000315</span></td>
+            </tr>
+            <tr style="border-top: 2px solid var(--border); font-weight: bold; background-color: rgba(37, 99, 235, 0.05);">
+              <td style="color: var(--brand-blue);" colspan="2">Est. Operacional (/webhook)</td>
+              <td class="td-right td-mono text-blue" id="tbl-webhook" style="color: var(--brand-blue);">R$ 0,55</td>
+              <td style="color: var(--text-secondary);">Mapeamento de telemetria base de logs.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 3: Dados Operacionais e Projeções -->
+    <section class="section-block operacional-grid">
       
-      <!-- Main Content Column -->
-      <div class="main-column">
-        
-        <!-- 1. Resumo Executivo -->
-        <section class="card">
-          <div class="minimalist-header">
-            <h3 class="section-title">1. Resumo Executivo</h3>
+      <!-- Dados Operacionais -->
+      <div>
+        <h3 class="section-title">3. Perfil Operacional Observado</h3>
+        <div class="card log-panel">
+          <div class="log-row">
+            <span style="opacity: 0.6;">Projeto:</span>
+            <span class="td-bold">contabilizei-canais-xp</span>
           </div>
-          <div class="resumo-text">
-            <p>Este relatório apresenta uma visão executiva consistente do ecossistema <strong style="color: var(--text-primary)">Hermes</strong> no mês de junho de 2026, refinando a identificação de faturamentos para dar maior segurança à tomada de decisão.</p>
-            <p>O principal componente financeiro diretamente atribuível ao Hermes é o <span class="code-tag">Vertex AI</span>. O custo operacional computacional observado para o endpoint <span class="code-tag">/webhook</span> em Cloud Run foi extremamente baixo e residual.</p>
-            <p>Existem custos compartilhados ou não atribuídos na billing account geral, como <span class="code-tag">Cloud Run</span>, <span class="code-tag">Cloud Build</span> e <span class="code-tag">Cloud Run Functions</span>, que contêm recursos de outros workloads e não podem ser automaticamente tratados como custo exclusivo do Hermes.</p>
-            
-            <div class="info-callout" style="border-left: 3.5px solid var(--brand-amber);">
-              <!-- Shield alert icon representation -->
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12" y1="17" y2="17"/></svg>
-              <span><strong>Natureza Gerencial:</strong> Este documento fornece uma visão gerencial e executiva com máxima transparência metodológica. Ele não representa e não deve ser confundido com um rateio contábil exato ou balanço financeiro fechado do Hermes.</span>
-            </div>
+          <div class="log-row">
+            <span style="opacity: 0.6;">Instância Run:</span>
+            <span class="td-bold" style="font-size: 10px; word-break: break-all;">hermes-observability-agent-prd</span>
           </div>
-        </section>
-
-        <!-- 2. Visão Consolidada dos Custos Observados -->
-        <section class="card">
-          <div class="minimalist-header">
-            <h3 class="section-title">2. Visão Consolidada dos Custos Observados</h3>
+          <div class="log-row">
+            <span style="opacity: 0.6;">Janela temporal:</span>
+            <span>2026-06-01 a 2026-06-30</span>
           </div>
-
-          <!-- Cards Grid -->
-          <div class="stats-grid">
-            <div class="stat-card">
-              <span class="stat-label">Vertex AI (Direto)</span>
-              <span class="stat-value brand" id="stat-vertex">R$ 41,81</span>
-              <span class="stat-sub">100% Atribuído</span>
+          <div class="log-row">
+            <span style="opacity: 0.6;">Requisições Totais:</span>
+            <span class="td-bold" style="color: var(--brand-blue);">182 (180 OK | 2 Erros)</span>
+          </div>
+          <div class="log-row">
+            <span style="opacity: 0.6;">Latência (P50 | P95):</span>
+            <span>19.19 s | 48.95 s</span>
+          </div>
+          <div class="log-row" style="border-bottom: none;">
+            <span style="opacity: 0.6;">Especificação:</span>
+            <span>1 vCPU | 1 GiB | Concurrency 5</span>
+      <!-- Projeções -->
+      <div>
+        <h3 class="section-title">4. Projeção Integrada de Tráfego e Custos</h3>
+        <div class="card log-panel" style="gap: 12px;">
+          <p style="font-size: 12px; font-family: sans-serif; color: var(--text-secondary); margin-bottom: 4px;">
+            Projeta a escalabilidade combinada do endpoint (computação Cloud Run) e das consultas de inteligência (Vertex AI):
+          </p>
+          <div class="log-row" style="flex-direction: column; align-items: stretch; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--brand-blue); font-size: 12px;">
+              <span>182 reqs (Base de Junho)</span>
+              <span id="proj-base-total">R$ 42,36</span>
             </div>
-            <div class="stat-card" style="border-color: rgba(217, 119, 6, 0.3);">
-              <span class="stat-label" style="color: var(--brand-amber)">Run Functions</span>
-              <span class="stat-value amber" id="stat-functions">R$ 101,90</span>
-              <span class="stat-sub">Relevante / Não Atrib.</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Cloud Run (Total)</span>
-              <span class="stat-value" id="stat-run">R$ 1,05</span>
-              <span class="stat-sub">Compartilhado</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Cloud Build (Total)</span>
-              <span class="stat-value" id="stat-build">R$ 0,00</span>
-              <span class="stat-sub">Compartilhado</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Build Residência</span>
-              <span class="stat-value" id="stat-build-residue" style="font-size: 11px; color: var(--text-secondary);">R$ 0,000315</span>
-              <span class="stat-sub">Não arredondado</span>
-            </div>
-            <div class="stat-card" style="border-color: rgba(37, 99, 235, 0.2);">
-              <span class="stat-label" style="color: var(--brand-blue)">Est. Webhook</span>
-              <span class="stat-value" id="stat-webhook" style="color: var(--brand-blue)">R$ 0,55</span>
-              <span class="stat-sub">Operacional (/webhook)</span>
+            <div style="display: flex; justify-content: space-between; opacity: 0.75; font-size: 10px; margin-top: 2px;">
+              <span>Cloud Run: <span id="proj-base-run">R$ 0,55</span></span>
+              <span>Vertex AI: <span id="proj-base-vertex">R$ 41,81</span></span>
             </div>
           </div>
-
-          <!-- Textual executive notes -->
-          <div style="border-top: 1px solid var(--border); padding-top: 16px;">
-            <h4 style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; font-family: monospace;">Leitura Executiva Curta:</h4>
-            <ul class="bullet-list">
-              <li class="bullet-item">
-                <span class="bullet-dot">•</span>
-                <span><strong style="color: var(--text-primary)">Vertex AI (R$ 41,81)</strong> é o principal custo diretamente atribuível ao Hermes.</span>
-              </li>
-              <li class="bullet-item">
-                <span class="bullet-dot">•</span>
-                <span><strong style="color: var(--text-primary)">Cloud Run Functions (R$ 101,90)</strong> representa um custo relevante na billing account geral, mas sem atribuição confirmada ao Hermes, exigindo auditoria específica futura.</span>
-              </li>
-              <li class="bullet-item">
-                <span class="bullet-dot">•</span>
-                <span>Os serviços básicos de <strong style="color: var(--text-primary)">Cloud Run</strong> e <strong style="color: var(--text-primary)">Cloud Build</strong> tiveram impacto financeiro muito baixo e irrelevante no período de faturamento observado.</span>
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- 3. Custos Diretamente Atribuíveis ao Hermes -->
-        <section class="card">
-          <div class="minimalist-header">
-            <h3 class="section-title">3. Custos Diretamente Atribuíveis ao Hermes</h3>
-          </div>
-          <div class="resumo-text">
-            <p>Apenas <span class="code-tag">Vertex AI</span> será tratado formalmente como custo diretamente atribuível ao Hermes. Isso ocorre porque o Hermes é o único ecossistema ativo configurado que utiliza e interage com os recursos desse serviço no escopo analisado.</p>
-            <div class="info-callout" style="background-color: var(--bg-card); border-color: var(--border);">
-              <div style="flex-grow: 1;">
-                <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; font-family: monospace; color: var(--text-muted); display: block;">Custo Direto Confirmado</span>
-                <span style="font-size: 11px; color: var(--text-secondary);">Serviço: Vertex AI</span>
-              </div>
-              <div class="td-right">
-                <span id="direct-vertex-val" style="font-size: 20px; font-weight: 700; font-family: monospace; color: var(--brand-blue); display: block;">R$ 41,81</span>
-                <span style="font-size: 9px; color: var(--text-muted); font-family: monospace;">Junho de 2026</span>
-              </div>
+          <div class="log-row" style="flex-direction: column; align-items: stretch; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--brand-blue); font-size: 12px;">
+              <span>1.000 reqs</span>
+              <span id="proj-1k-total">R$ 232,73</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; opacity: 0.75; font-size: 10px; margin-top: 2px;">
+              <span>Cloud Run: <span id="proj-1k-run">R$ 3,00</span></span>
+              <span>Vertex AI: <span id="proj-1k-vertex">R$ 229,73</span></span>
             </div>
           </div>
-        </section>
-
-        <!-- 4. Custos Compartilhados e Não Atribuídos -->
-        <section class="card">
-          <div class="minimalist-header">
-            <h3 class="section-title">4. Custos Compartilhados e Não Atribuídos</h3>
-          </div>
-          <div class="resumo-text" style="gap: 16px;">
-            <p>Os serviços listados abaixo aparecem na billing account do período, mas não foram atribuídos automaticamente ao Hermes por falta de vinculação exclusiva. Esses valores devem ser interpretados como custos da conta geral do provedor GCP, e não imputados como custo exclusivo do Hermes.</p>
-            <p>Notavelmente, as <strong style="color: var(--text-primary);">Cloud Run Functions</strong> representam a maior despesa de infraestrutura geral após o Vertex AI, sendo cruciais para investigação em auditorias de rotas futuras.</p>
-            
-            <div class="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Serviço</th>
-                    <th class="td-right">Valor Observado</th>
-                    <th>Status de Atribuição</th>
-                    <th>Leitura Executiva</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="td-bold">Vertex AI</td>
-                    <td class="td-right td-mono" id="tbl-vertex">R$ 41,81</td>
-                    <td style="color: var(--brand-success); font-weight: 600;">Diretamente atribuível</td>
-                    <td>Custo direto do Hermes</td>
-                  </tr>
-                  <tr>
-                    <td class="td-bold">Cloud Run</td>
-                    <td class="td-right td-mono" id="tbl-run">R$ 1,05</td>
-                    <td style="color: var(--brand-amber); font-weight: 600;">Compartilhado</td>
-                    <td>Baixo impacto no período</td>
-                  </tr>
-                  <tr>
-                    <td class="td-bold">Cloud Build</td>
-                    <td class="td-right td-mono" id="tbl-build">R$ 0,00</td>
-                    <td style="color: var(--brand-amber); font-weight: 600;">Compartilhado</td>
-                    <td>Impacto praticamente nulo</td>
-                  </tr>
-                  <tr style="background-color: rgba(217, 119, 6, 0.05);">
-                    <td class="td-bold" style="color: var(--brand-amber);">Cloud Run Functions</td>
-                    <td class="td-right td-mono td-bold" id="tbl-functions" style="color: var(--brand-amber);">R$ 101,90</td>
-                    <td style="color: var(--brand-error); font-weight: 700;">Não atribuído</td>
-                    <td class="td-bold" style="font-style: italic;">Custo relevante que exige investigação futura</td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="log-row" style="flex-direction: column; align-items: stretch; border-bottom: 1px dashed var(--border); padding-bottom: 8px;">
+            <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--brand-blue); font-size: 12px;">
+              <span>10.000 reqs</span>
+              <span id="proj-10k-total">R$ 2.327,17</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; opacity: 0.75; font-size: 10px; margin-top: 2px;">
+              <span>Cloud Run: <span id="proj-10k-run">R$ 29,92</span></span>
+              <span>Vertex AI: <span id="proj-10k-vertex">R$ 2.297,25</span></span>
             </div>
           </div>
-        </section>
-
-        <!-- 5. Projeção Operacional de Cloud Run (Webhook) -->
-        <section class="card">
-          <div class="minimalist-header">
-            <h3 class="section-title">5. Projeção Operacional de Cloud Run</h3>
-          </div>
-          <div class="resumo-text">
-            <p>A projeção abaixo considera <strong>apenas</strong> o comportamento operacional e de faturamento do Cloud Run do endpoint analisado. Ela <span style="text-decoration: underline; text-decoration-color: var(--brand-error);">não projeta</span> automaticamente o crescimento de custo de Vertex AI ou de outros componentes de modelo inteligente do Hermes, que dependem puramente da volumetria e tamanho de prompts/tokens das chamadas de LLM.</p>
-            
-            <div class="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Volume Mensal (Requests)</th>
-                    <th class="td-right">Custo Estimado (USD)</th>
-                    <th class="td-right">Custo Convertido</th>
-                    <th>Escala do Runtime</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>182 (Base Observada)</td>
-                    <td class="td-right td-mono">US$ 0,10</td>
-                    <td class="td-right td-mono td-bold" id="proj-base">R$ 0,55</td>
-                    <td>Consumo atual observado</td>
-                  </tr>
-                  <tr>
-                    <td>1.000</td>
-                    <td class="td-right td-mono">US$ 0,55</td>
-                    <td class="td-right td-mono td-bold" id="proj-1k">R$ 3,00</td>
-                    <td>Tráfego de homologação</td>
-                  </tr>
-                  <tr>
-                    <td>10.000</td>
-                    <td class="td-right td-mono">US$ 5,49</td>
-                    <td class="td-right td-mono td-bold" id="proj-10k" style="color: var(--brand-blue)">R$ 29,92</td>
-                    <td>Tráfego médio em produção</td>
-                  </tr>
-                  <tr>
-                    <td>100.000</td>
-                    <td class="td-right td-mono">US$ 54,91</td>
-                    <td class="td-right td-mono td-bold" id="proj-100k" style="color: var(--brand-blue)">R$ 299,26</td>
-                    <td>Tráfego intenso de larga escala</td>
-                  </tr>
-                </tbody>
-              </table>
+          <div class="log-row" style="flex-direction: column; align-items: stretch; border-bottom: none; padding-bottom: 0;">
+            <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--brand-blue); font-size: 12px;">
+              <span>100.000 reqs</span>
+              <span id="proj-100k-total">R$ 23.271,79</span>
             </div>
-
-            <!-- Cloud Run Simulator Box -->
-            <div class="simulator-box print-hide">
-              <div class="simulator-title-row">
-                <!-- Calculator SVG -->
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
-                <span class="simulator-title">Simulador de Cloud Run (Webhook)</span>
-              </div>
-              
-              <div class="simulator-inputs">
-                <div class="slider-label-row">
-                  <span>Defina a volumetria de requests:</span>
-                  <span class="slider-value" id="slider-val-text">10.000 requests</span>
-                </div>
-                <input type="range" id="sim-requests" class="range-input" min="182" max="150000" step="500" value="10000" oninput="updateSimulation(this.value)">
-                <div class="range-min-max">
-                  <span>182 (base)</span>
-                  <span>75k</span>
-                  <span>150k (máx)</span>
-                </div>
-              </div>
-
-              <div class="simulator-results">
-                <div class="sim-result-card">
-                  <span class="sim-result-label">Custo Estimado de Cloud Run</span>
-                  <span class="sim-result-value" id="sim-run-val" style="color: var(--brand-blue);">R$ 29,92</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="highlight-box" style="border-left: 3.5px solid var(--brand-amber);">
-              <!-- Alert icon SVG -->
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12" y1="17" y2="17"/></svg>
-              <span class="highlight-text"><strong>Destaque Operacional Importante:</strong> Se o uso de LLM crescer junto com o tráfego físico, o custo total do Hermes pode crescer de forma altamente não linear e ser puxado principalmente pelo <strong style="color: var(--text-primary)">Vertex AI</strong>, e não pela infraestrutura básica de contêiner do <strong style="color: var(--text-primary)">Cloud Run</strong>.</span>
+            <div style="display: flex; justify-content: space-between; opacity: 0.75; font-size: 10px; margin-top: 2px;">
+              <span>Cloud Run: <span id="proj-100k-run">R$ 299,26</span></span>
+              <span>Vertex AI: <span id="proj-100k-vertex">R$ 22.972,53</span></span>
             </div>
           </div>
-        </section>
-
+        </div>
       </div>
+    </section>
 
-      <!-- Side Column -->
-      <div class="side-column">
+    <!-- Section 4: Simulador Dinâmico -->
+    <section class="section-block print-hide">
+      <h3 class="section-title">5. Simulador Dinâmico de Tráfego e Custos (Integrado)</h3>
+      <div class="simulator-box" style="display: flex; flex-direction: column; gap: 16px;">
+        <div class="simulator-header">
+          <span>Selecione o Volume Operacional do Endpoint:</span>
+          <span class="slider-value" id="slider-val-text">10.000 requisições/mês</span>
+        </div>
         
-        <!-- 6. Dados Operacionais Observados do Cloud Run -->
-        <section class="card">
-          <div class="minimalist-header">
-            <h3 class="section-title">6. Dados Operacionais</h3>
+        <div>
+          <input type="range" id="sim-requests" class="range-input" min="182" max="150000" step="500" value="10000" oninput="updateSimulation(this.value)">
+          <div class="range-min-max">
+            <span>182 reqs</span>
+            <span>75k</span>
+            <span>150k (máx)</span>
           </div>
-          <div class="resumo-text" style="gap: 16px; font-size: 12px;">
-            
-            <div style="display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">
-              <div>
-                <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block; font-family: monospace;">Projeto analisado:</span>
-                <span class="td-bold" style="font-family: monospace;">contabilizei-canais-xp</span>
-              </div>
-              <div>
-                <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block; font-family: monospace;">Serviço Cloud Run:</span>
-                <span class="td-bold" style="font-family: monospace; word-break: break-all;">hermes-observability-agent-prd</span>
-              </div>
-              <div>
-                <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block; font-family: monospace;">Região:</span>
-                <span class="td-bold" style="font-family: monospace;">us-central1</span>
-              </div>
-              <div>
-                <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block; font-family: monospace;">Período analisado:</span>
-                <span class="td-bold" style="font-family: monospace;">2026-06-01 a 2026-06-30</span>
-              </div>
-              <div>
-                <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block; font-family: monospace;">Tempo ativo estimado:</span>
-                <span class="td-bold" style="font-family: monospace;">3768.622595 s</span>
-              </div>
-            </div>
+        </div>
 
-            <!-- Webhook requests metrics -->
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-              <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block; font-family: monospace;">Requisições /webhook:</span>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
-                <span>Total Requests</span>
-                <span class="td-bold td-mono">182</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 4px; align-items: center;">
-                <span>Status 200 (Sucesso)</span>
-                <span class="badge-success">180</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
-                <span>Status 401</span>
-                <span class="td-bold td-mono">1</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
-                <span>Status 403</span>
-                <span class="td-bold td-mono">1</span>
-              </div>
-            </div>
-
-            <!-- Latencies -->
-            <div style="display: flex; flex-direction: column; gap: 6px; padding-top: 6px;">
-              <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block; font-family: monospace;">Latência Observada:</span>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
-                <span>Latência total</span>
-                <span class="td-mono">3854.304697 s</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
-                <span>Latência média</span>
-                <span class="td-mono">21.177498 s</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
-                <span>Latência P50 (Mediana)</span>
-                <span class="td-mono">19.190444 s</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 4px;">
-                <span>Latência P95</span>
-                <span class="td-mono td-bold" style="color: var(--brand-blue)">48.95701 s</span>
-              </div>
-            </div>
-
-            <!-- Configurações físicas -->
-            <div style="background-color: var(--bg-surface); padding: 12px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace; font-size: 11px; margin-top: 4px;">
-              <span style="font-size: 9px; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 6px;">Especificação da Instância:</span>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-                <div>CPU: <strong>1 vCPU</strong></div>
-                <div>Memória: <strong>1 GiB</strong></div>
-                <div>Concurrency: <strong>5</strong></div>
-                <div>Max scale: <strong>1</strong></div>
-                <div style="grid-column: span 2;">CPU Boost: <strong>True</strong></div>
-                <div style="grid-column: span 2; color: var(--text-muted); font-style: italic;">Min scale: não identificado</div>
-              </div>
-            </div>
-
-            <p style="font-size: 11px; color: var(--text-muted); font-style: italic; line-height: 1.4;">
-              O endpoint analisado registrou baixo volume absoluto em junho de 2026. Consequentemente, o custo operacional de Cloud Run para este tráfego foi residual quando comparado ao custo direto de Vertex AI.
-            </p>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 16px; border: 1px dashed var(--border); padding: 16px; border-radius: 8px;" class="sim-grid-responsive">
+          <style>
+            @media (min-width: 640px) {
+              .sim-grid-responsive {
+                grid-template-columns: 1fr 1fr 1fr !important;
+              }
+              .sim-border-l {
+                border-left: 1px solid var(--border) !important;
+                padding-left: 16px !important;
+              }
+            }
+          </style>
+          
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); tracking: 0.05em;">1. Computação (Cloud Run)</span>
+            <span id="sim-run-val" style="font-size: 16px; font-weight: 700; font-family: monospace; color: var(--brand-success);">R$ 29,92</span>
+            <span style="font-size: 9px; color: var(--text-muted);">Carga física do webhook</span>
           </div>
-        </section>
 
-        <!-- 7. Premissas e Limitações -->
-        <section class="card">
-          <div class="minimalist-header">
-            <h3 class="section-title">7. Premissas e Limitações</h3>
+          <div class="sim-border-l" style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); tracking: 0.05em;">2. Inteligência (Vertex AI)</span>
+            <span id="sim-vertex-val" style="font-size: 16px; font-weight: 700; font-family: monospace; color: var(--brand-blue);">R$ 2.297,25</span>
+            <span style="font-size: 9px; color: var(--text-muted);">Estimativa baseada em tokens</span>
           </div>
-          <ul class="bullet-list">
-            <li class="bullet-item">
-              <span class="bullet-dot">•</span>
-              <span><strong>Vertex AI</strong> foi tratado como o único faturamento diretamente atribuível ao Hermes.</span>
-            </li>
-            <li class="bullet-item">
-              <span class="bullet-dot">•</span>
-              <span><strong>Cloud Run</strong>, <strong>Cloud Build</strong> e <strong>Cloud Run Functions</strong> foram tratados como custos agregados compartilhados ou não atribuídos na conta GCP.</span>
-            </li>
-            <li class="bullet-item">
-              <span class="bullet-dot">•</span>
-              <span>A base de faturamento brutas do export disponível é consolidada por tipo de recurso provisionado ao nível do provedor GCP, e não por workload individual.</span>
-            </li>
-            <li class="bullet-item">
-              <span class="bullet-dot">•</span>
-              <span>A estimativa de consumo do Cloud Run foi baseada em logs de telemetria física obtidos no Cloud Logging.</span>
-            </li>
-            <li class="bullet-item">
-              <span class="bullet-dot">•</span>
-              <span>O relatório não representa um custo total contábil fechado, mas sim uma modelagem racional gerencial executiva para tomada de decisão.</span>
-            </li>
-          </ul>
-        </section>
 
+          <div class="sim-border-l" style="display: flex; flex-direction: column; gap: 4px;">
+            <span style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--brand-blue); tracking: 0.05em;">3. Custo Total Estimado</span>
+            <span id="sim-total-val" style="font-size: 18px; font-weight: 800; font-family: monospace; color: var(--brand-blue);">R$ 2.327,17</span>
+            <span style="font-size: 9px; color: var(--text-muted);">Projeção total combinada</span>
+          </div>
+        </div>
+
+        <div class="info-callout" style="border-top: none; margin-top: 0; font-size: 11px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12" y1="17" y2="17"/></svg>
+          <span><strong>Metodologia de Estimativa:</strong> Os custos de computação física e de tokens/LLM foram escalados de forma linear com base no comportamento de consumo observado do período, demonstrando que a demanda de inteligência (Vertex AI) constitui a parcela predominante do faturamento operacional do Hermes.</span>
+        </div>
       </div>
+    </section>
 
-    </div>
+    <!-- Section 5: Premissas -->
+    <section class="section-block">
+      <h3 class="section-title">6. Premissas e Limitações Metodológicas</h3>
+      <div class="card">
+        <ul class="bullet-list" style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+          <li class="bullet-item" style="font-size: 12px;"><strong>Vertex AI</strong> foi categorizado como custo direto exclusivo com base na exclusividade de pipeline.</li>
+          <li class="bullet-item" style="font-size: 12px;"><strong>Cloud Run Functions</strong> gerou faturamento agregado de R$ 101,90 e não deve ser desconsiderado nas auditorias.</li>
+          <li class="bullet-item" style="font-size: 12px;">A modelagem de faturamento é gerencial, não representando partilha contábil formal ou oficial.</li>
+          <li class="bullet-item" style="font-size: 12px;">A telemetria de consumo computacional do webhook foi obtida e calibrada diretamente a partir de logs do GCP.</li>
+        </ul>
+      </div>
+    </section>
 
     <!-- Footer -->
     <footer>
-      <p>Fontes de Dados: Export de Billing Agregado GCP, Cloud Logging & Configurações de Ativos (contabilizei-canais-xp)</p>
-      <p>Competência de Auditoria: Junho de 2026</p>
+      <p>Fontes: Faturamento Geral de Conta GCP, Logs de Runtime do Cloud Logging e Parâmetros Físicos do Cloud Run (contabilizei-canais-xp)</p>
+      <p>Período de Auditoria: Junho de 2026</p>
     </footer>
 
   </main>
 
-  <!-- JavaScript Dynamic Logic -->
   <script>
-    // App State Values
     let currentCurrency = 'BRL';
     const usdToBrl = 5.45;
-    
-    // Core Data in BRL
+
     const data = {
       vertex: 41.81,
       run: 1.05,
@@ -1052,27 +802,21 @@
       webhookUsd: 0.10,
       baseRequests: 182,
       projections: [
-        { req: 182, usd: 0.10 },
-        { req: 1000, usd: 0.55 },
-        { req: 10000, usd: 5.49 },
-        { req: 100000, usd: 54.91 }
+        { reqs: 182, runUsd: 0.10, vertexBrl: 41.81 },
+        { reqs: 1000, runUsd: 0.55, vertexBrl: (1000 / 182) * 41.81 },
+        { reqs: 10000, runUsd: 5.49, vertexBrl: (10000 / 182) * 41.81 },
+        { reqs: 100000, runUsd: 54.91, vertexBrl: (100000 / 182) * 41.81 }
       ]
     };
 
-    // Initialize Event Handlers
     document.addEventListener('DOMContentLoaded', () => {
-      // Dark Mode default toggle
       const toggle = document.getElementById('theme-toggle');
-      document.documentElement.classList.add('dark'); // Matches requested default theme state
-      
       toggle.addEventListener('click', () => {
         document.documentElement.classList.toggle('dark');
       });
-
       render();
     });
 
-    // Set Active Currency Toggle
     function setCurrency(curr) {
       currentCurrency = curr;
       document.getElementById('curr-brl').classList.toggle('active', curr === 'BRL');
@@ -1080,62 +824,67 @@
       render();
     }
 
-    // Convert and Format Value
     function format(val, isRawUsd = false) {
       if (currentCurrency === 'BRL') {
-        let brlVal = isRawUsd ? (val * usdToBrl) : val;
-        return 'R$ ' + brlVal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        let brl = isRawUsd ? (val * usdToBrl) : val;
+        return 'R$ ' + brl.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       } else {
-        let usdVal = isRawUsd ? val : (val / usdToBrl);
-        return 'US$ ' + usdVal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        let usd = isRawUsd ? val : (val / usdToBrl);
+        return 'US$ ' + usd.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
     }
 
-    // Precise values formatting for build residue
     function formatPrecision(val) {
       if (currentCurrency === 'BRL') {
         return 'R$ ' + val.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 6 });
       } else {
-        let usdVal = val / usdToBrl;
-        return 'US$ ' + usdVal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 6 });
+        return 'US$ ' + (val / usdToBrl).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 6 });
       }
     }
 
-    // Render Data to DOM
     function render() {
-      // Stat Cards
-      document.getElementById('stat-vertex').innerText = format(data.vertex);
-      document.getElementById('stat-functions').innerText = format(data.functions);
-      document.getElementById('stat-run').innerText = format(data.run);
-      document.getElementById('stat-build').innerText = format(data.build);
-      document.getElementById('stat-build-residue').innerText = formatPrecision(data.buildResidue);
-      document.getElementById('stat-webhook').innerText = format(data.webhookUsd, true);
-
-      // Section 3 Value
-      document.getElementById('direct-vertex-val').innerText = format(data.vertex);
-
-      // Section 4 Table Values
       document.getElementById('tbl-vertex').innerText = format(data.vertex);
+      document.getElementById('tbl-functions').innerText = format(data.functions);
       document.getElementById('tbl-run').innerText = format(data.run);
       document.getElementById('tbl-build').innerText = format(data.build);
-      document.getElementById('tbl-functions').innerText = format(data.functions);
+      document.getElementById('tbl-build-residue').innerText = formatPrecision(data.buildResidue);
+      document.getElementById('tbl-webhook').innerText = format(data.webhookUsd, true);
 
-      // Projections table values
-      document.getElementById('proj-base').innerText = format(data.projections[0].usd, true);
-      document.getElementById('proj-1k').innerText = format(data.projections[1].usd, true);
-      document.getElementById('proj-10k').innerText = format(data.projections[2].usd, true);
-      document.getElementById('proj-100k').innerText = format(data.projections[3].usd, true);
+      // Render Projections
+      // Base (182)
+      document.getElementById('proj-base-total').innerText = format(data.projections[0].runUsd * usdToBrl + data.projections[0].vertexBrl);
+      document.getElementById('proj-base-run').innerText = format(data.projections[0].runUsd, true);
+      document.getElementById('proj-base-vertex').innerText = format(data.projections[0].vertexBrl);
 
-      // Update simulation value mapping
+      // 1k
+      document.getElementById('proj-1k-total').innerText = format(data.projections[1].runUsd * usdToBrl + data.projections[1].vertexBrl);
+      document.getElementById('proj-1k-run').innerText = format(data.projections[1].runUsd, true);
+      document.getElementById('proj-1k-vertex').innerText = format(data.projections[1].vertexBrl);
+
+      // 10k
+      document.getElementById('proj-10k-total').innerText = format(data.projections[2].runUsd * usdToBrl + data.projections[2].vertexBrl);
+      document.getElementById('proj-10k-run').innerText = format(data.projections[2].runUsd, true);
+      document.getElementById('proj-10k-vertex').innerText = format(data.projections[2].vertexBrl);
+
+      // 100k
+      document.getElementById('proj-100k-total').innerText = format(data.projections[3].runUsd * usdToBrl + data.projections[3].vertexBrl);
+      document.getElementById('proj-100k-run').innerText = format(data.projections[3].runUsd, true);
+      document.getElementById('proj-100k-vertex').innerText = format(data.projections[3].vertexBrl);
+
       const simValue = document.getElementById('sim-requests').value;
       updateSimulation(simValue);
     }
 
-    // Update Simulation dynamic value
     function updateSimulation(reqs) {
-      document.getElementById('slider-val-text').innerText = Number(reqs).toLocaleString('pt-BR') + ' requests';
-      const simulatedCloudRunUsd = (reqs / data.baseRequests) * data.webhookUsd;
-      document.getElementById('sim-run-val').innerText = format(simulatedCloudRunUsd, true);
+      document.getElementById('slider-val-text').innerText = Number(reqs).toLocaleString('pt-BR') + ' requisições/mês';
+      
+      const simRunUsd = (reqs / data.baseRequests) * data.webhookUsd;
+      const simVertexBrl = (reqs / data.baseRequests) * data.vertex;
+      const simTotalBrl = (simRunUsd * usdToBrl) + simVertexBrl;
+
+      document.getElementById('sim-run-val').innerText = format(simRunUsd, true);
+      document.getElementById('sim-vertex-val').innerText = format(simVertexBrl);
+      document.getElementById('sim-total-val').innerText = format(simTotalBrl);
     }
   </script>
 </body>
