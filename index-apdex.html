@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[Plataforma] Ofensores reais de Apdex</title>
+  <style>
+    /* Premium Swiss Minimalist Dark Theme with Red Accents */
+    :root {
+      --bg: #030712;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-heading: #f8fafc;
+      --border: #1e293b;
+      --card-bg: rgba(15, 23, 42, 0.3);
+      --accent: #ef4444;
+      --accent-dim: rgba(239, 68, 68, 0.1);
+      --accent-blue: #3b82f6;
+      --accent-amber: #f59e0b;
+      --accent-amber-dim: rgba(245, 158, 11, 0.1);
+      --accent-emerald: #10b981;
+      --accent-emerald-dim: rgba(16, 185, 129, 0.1);
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+      padding-bottom: 4rem;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        padding-bottom: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+      header {
+        border-bottom: 1px solid #cbd5e1 !important;
+      }
+      h1 {
+        color: #000000 !important;
+      }
+      .card {
+        background-color: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        color: #1e293b !important;
+      }
+      table {
+        border-collapse: collapse !important;
+      }
+      th, td {
+        border-bottom: 1px solid #e2e8f0 !important;
+        color: #1e293b !important;
+      }
+      th {
+        background-color: #f1f5f9 !important;
+      }
+      .highlight-box {
+        background-color: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #1e293b !important;
+      }
+      code {
+        background-color: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #000000 !important;
+      }
+    }
+
+    .no-print-bar {
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background-color: rgba(3, 7, 18, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .nav-container {
+      max-width: 768px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .nav-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: var(--accent);
+      border-radius: 50%;
+    }
+
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 11px;
+      font-weight: 600;
+      background-color: #0f172a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      transition: background-color 150ms ease;
+    }
+
+    .btn-print:hover {
+      background-color: #1e293b;
+    }
+
+    .container {
+      max-width: 768px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      header {
+        flex-direction: row;
+        align-items: flex-end;
+      }
+    }
+
+    .header-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-family: var(--font-mono);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text-heading);
+    }
+
+    @media (min-width: 640px) {
+      h1 {
+        font-size: 1.875rem;
+      }
+    }
+
+    .subtitle {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+
+    .meta-info {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .section-block {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 1.25rem;
+    }
+
+    li {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background-color: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      color: #fca5a5;
+    }
+
+    /* Table styling */
+    .table-container {
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      overflow: hidden;
+      background-color: rgba(15, 23, 42, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 0.625rem 1rem;
+    }
+
+    th {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background-color: rgba(15, 23, 42, 0.4);
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .td-bold {
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+
+    .td-mono {
+      font-family: var(--font-mono);
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-red {
+      color: var(--accent);
+      font-weight: 750;
+    }
+
+    .text-amber {
+      color: var(--accent-amber);
+      font-weight: 750;
+    }
+
+    .text-emerald {
+      color: var(--accent-emerald);
+      font-weight: 750;
+    }
+
+    .bg-red-dim {
+      background-color: var(--accent-dim);
+    }
+
+    .bg-amber-dim {
+      background-color: var(--accent-amber-dim);
+    }
+
+    .bg-emerald-dim {
+      background-color: var(--accent-emerald-dim);
+    }
+
+    .highlight-box {
+      background-color: rgba(239, 68, 68, 0.02);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .highlight-box.quickwins-box {
+      border-top: 1px solid var(--border);
+      background-color: transparent;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+      padding: 1rem 0 0 0;
+      margin-top: 1rem;
+    }
+
+    .highlight-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #fca5a5;
+      margin-bottom: 0.375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .highlight-title.quickwins-title {
+      color: #34d399;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-family: var(--font-mono);
+    }
+
+    .highlight-list {
+      list-style-type: disc;
+      padding-left: 1.25rem;
+    }
+
+    .highlight-list li {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .highlight-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: bold;
+      color: var(--text-muted);
+      padding: 0.375rem 0.75rem;
+      background-color: rgba(15, 23, 42, 0.5);
+      border-bottom: 1px solid var(--border);
+    }
+
+    ol {
+      list-style-type: decimal;
+      padding-left: 1.25rem;
+    }
+
+    ol li {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+    }
+
+    ol li strong {
+      color: var(--text-heading);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      margin-top: 3.5rem;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Action Bar (Hidden on Print) -->
+  <nav class="no-print-bar no-print">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="nav-dot" style="background-color: var(--accent);"></span>
+        <span>Plataforma — Apdex</span>
+      </div>
+      <div>
+        <button class="btn-print" onclick="window.print()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+          Imprimir PDF
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <div>
+        <span class="header-tag">Análise de Desempenho e SLA</span>
+        <h1>[Plataforma] Ofensores reais de Apdex</h1>
+        <p class="subtitle">Projeto: <code>plataforma-web</code> | Janela analisada: últimos 15 dias</p>
+      </div>
+      <div class="meta-info">
+        <p>Data: 14/07/2026</p>
+        <p>Apdex: satisfeito <strong>&lt;= 2.5s</strong>, tolerado <strong>&gt; 2.5s &lt;= 10s</strong>, frustrado <strong>&gt; 10s</strong>.</p>
+      </div>
+    </header>
+
+    <!-- Rotas no foco -->
+    <section class="section-block">
+      <h2 class="section-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        1. Rotas no foco
+      </h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th class="text-center" style="width: 80px;">Prioridade</th>
+              <th>Rota/contexto</th>
+              <th class="text-center" style="width: 100px;">Apdex</th>
+              <th>Diagnóstico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center font-mono td-bold text-red">1</td>
+              <td class="td-bold td-mono">novo-emissor/v2/emissao/emitir</td>
+              <td class="text-center td-bold td-mono text-red bg-red-dim">0.4661</td>
+              <td>Latência do Notas Worker.</td>
+            </tr>
+            <tr>
+              <td class="text-center font-mono td-bold text-amber">2</td>
+              <td class="td-mono">impostos/v3/impostos-a-pagar/init</td>
+              <td class="text-center td-bold td-mono text-amber bg-amber-dim">0.6327</td>
+              <td>Latência agregada por I/O; ofensor interno ainda não isolado.</td>
+            </tr>
+            <tr>
+              <td class="text-center font-mono td-bold text-amber">3</td>
+              <td class="td-mono">impostos/v4/impostos-a-pagar/init</td>
+              <td class="text-center td-bold td-mono text-amber bg-amber-dim">0.6596</td>
+              <td>Mesmo fluxo do v3.</td>
+            </tr>
+            <tr>
+              <td class="text-center font-mono td-bold text-emerald">4</td>
+              <td class="td-mono">dashboard/v2/init</td>
+              <td class="text-center td-bold td-mono text-emerald bg-emerald-dim">0.7930</td>
+              <td>Cards caros seguram o init.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); margin-top: 0.5rem; font-style: italic; padding-left: 0.25rem;">
+        Fora do foco principal: rotas que sujam pouco o agregado ou não têm Apdex ruim o bastante para priorização imediata.
+      </div>
+    </section>
+
+    <!-- Novo emissor v2 -->
+    <section class="section-block">
+      <h2 class="section-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        2. Novo emissor v2
+      </h2>
+      <div class="card" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <p style="font-size: 13px; font-weight: 600; color: var(--text-heading);">
+          Problema comprovado: o <code>plataforma-web</code> fica bloqueado aguardando o <code>importacao-notas-worker</code>. Não há evidência de CPU local relevante.
+        </p>
+        <p style="font-size: 12px; color: var(--text-muted);">
+          Evidência na origem: <code>importacao-notas-worker</code>, <code>nfse/rest/auth/emissor/nova-nota</code>, 5.000 requests.
+        </p>
+
+        <div class="table-container" style="background-color: rgba(3, 7, 18, 0.4); margin: 0.25rem 0;">
+          <table>
+            <thead>
+              <tr style="font-size: 11px;">
+                <th class="text-right">p50</th>
+                <th class="text-right">p95</th>
+                <th class="text-right">p99</th>
+                <th class="text-right">max</th>
+                <th class="text-right" style="color: var(--accent);">&gt;10s</th>
+                <th class="text-right" style="color: var(--accent);">&gt;60s</th>
+                <th class="text-right" style="color: var(--accent-amber);">pending</th>
+                <th class="text-right" style="color: var(--accent);">non-200</th>
+              </tr>
+            </thead>
+            <tbody class="td-mono" style="font-size: 11px;">
+              <tr>
+                <td class="text-right">3.58s</td>
+                <td class="text-right">8.80s</td>
+                <td class="text-right td-bold text-red">49.92s</td>
+                <td class="text-right">74.38s</td>
+                <td class="text-right td-bold text-red">233</td>
+                <td class="text-right td-bold text-red">22</td>
+                <td class="text-right td-bold text-amber">191</td>
+                <td class="text-right td-bold text-red">140</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size: 12px; color: var(--text-muted);">
+          O código confirma POST síncrono para o Notas Worker e read timeout de <code>600s</code>.
+        </p>
+
+        <div class="highlight-box quickwins-box">
+          <div class="highlight-title quickwins-title">Quickwins</div>
+          <ul class="highlight-list">
+            <li>Reduzir timeout do call síncrono e retornar erro controlado.</li>
+            <li>Logar duração da chamada ao Notas Worker com trace/correlation id.</li>
+            <li>Avaliar <code>min_idle_instances</code> no <code>importacao-notas-worker</code>.</li>
+            <li>Se o contrato permitir, transformar emissão longa em fluxo assíncrono/semi-assíncrono.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Impostos v3/v4 -->
+    <section class="section-block">
+      <h2 class="section-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        3. Impostos v3/v4
+      </h2>
+      <div class="card" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <p style="font-size: 13px; font-weight: 600; color: var(--text-heading);">
+          Problema comprovado: Apdex ruim por tolerados; o init é um agregador síncrono com múltiplas dependências. Os dados atuais não sustentam culpar uma dependência única.
+        </p>
+
+        <div class="table-container" style="background-color: rgba(3, 7, 18, 0.4);">
+          <table>
+            <thead>
+              <tr>
+                <th>Rota</th>
+                <th class="text-right">Satisfeitos</th>
+                <th class="text-right">Tolerados</th>
+                <th class="text-right">Frustrados</th>
+              </tr>
+            </thead>
+            <tbody class="td-mono">
+              <tr>
+                <td class="td-bold">impostos/v3/impostos-a-pagar/init</td>
+                <td class="text-right">1305</td>
+                <td class="text-right text-amber td-bold">3464</td>
+                <td class="text-right text-red">31</td>
+              </tr>
+              <tr>
+                <td class="td-bold">impostos/v4/impostos-a-pagar/init</td>
+                <td class="text-right">1557</td>
+                <td class="text-right text-amber td-bold">3218</td>
+                <td class="text-right text-red">25</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size: 12px; color: var(--text-muted); margin-top: 0.25rem;">
+          Dependências medidas e descartadas como causa dominante:
+        </p>
+
+        <div class="table-container" style="background-color: rgba(3, 7, 18, 0.4);">
+          <table>
+            <thead>
+              <tr>
+                <th>Dependência</th>
+                <th class="text-right">p95</th>
+                <th class="text-right">p99</th>
+                <th>Leitura</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-mono">guias /impostos-disponiveis-e-em-atraso</td>
+                <td class="text-right td-mono">0.177s</td>
+                <td class="text-right td-mono">0.269s</td>
+                <td class="text-emerald font-medium">Rápida.</td>
+              </tr>
+              <tr>
+                <td class="td-mono">guias /parcelamento/empresa</td>
+                <td class="text-right td-mono">0.142s</td>
+                <td class="text-right td-mono">0.408s</td>
+                <td class="text-emerald font-medium">Rápida.</td>
+              </tr>
+              <tr>
+                <td class="td-mono">faturamento-worker /simuladores/fator-r</td>
+                <td class="text-right td-mono">0.099s</td>
+                <td class="text-right td-mono text-red">3.666s</td>
+                <td style="color: var(--text-muted)">Rápida no geral, com outliers.</td>
+              </tr>
+              <tr>
+                <td class="td-mono">consulta-credencial-invalida-api</td>
+                <td class="text-right td-mono">0.117s</td>
+                <td class="text-right td-mono">0.276s</td>
+                <td class="text-emerald font-medium">Rápida.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="font-size: 12px; color: var(--text-muted);">
+          <code>consulta-detalhe-imposto-api</code> é lenta quando chamada: p50 <code>5.126s</code>, p95 <code>8.113s</code>. Porém teve baixo volume e há cache de 90 dias; afeta misses, não explica sozinho o Apdex geral.
+        </p>
+
+        <div class="highlight-box quickwins-box">
+          <div class="highlight-title quickwins-title">Quickwins</div>
+          <ul class="highlight-list">
+            <li>Instrumentar duração por etapa dentro de <code>ImpostosAPagarCompositionRoot.executar()</code>.</li>
+            <li>Aplicar timeout/fallback em dependências não essenciais para render inicial.</li>
+            <li>Remover dados secundários do payload inicial e carregar por lazy load.</li>
+            <li>Garantir hit de cache para <code>consulta-detalhe-imposto-api</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard v2 -->
+    <section class="section-block">
+      <h2 class="section-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+        4. Dashboard v2
+      </h2>
+      <div class="card" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <p style="font-size: 13px; font-weight: 600; color: var(--text-heading);">
+          Problema comprovado: o init espera todos os cards; quando <code>card_notas_fiscais</code> ou <code>card_impostos</code> demora, o dashboard inteiro demora.
+        </p>
+
+        <div class="grid-2">
+          <!-- Table 1: metrics -->
+          <div class="table-container" style="background-color: rgba(3, 7, 18, 0.4);">
+            <div class="card-title">Métricas Gerais</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Métrica</th>
+                  <th class="text-right">Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Apdex</td>
+                  <td class="text-right td-mono td-bold text-red">0.7930</td>
+                </tr>
+                <tr>
+                  <td>Satisfeitos</td>
+                  <td class="text-right td-mono">2875 / 4800</td>
+                </tr>
+                <tr>
+                  <td>Tolerados</td>
+                  <td class="text-right td-mono text-amber td-bold">1863 / 4800</td>
+                </tr>
+                <tr>
+                  <td>Frustrados</td>
+                  <td class="text-right td-mono text-red td-bold">62 / 4800</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table 2: cards -->
+          <div class="table-container" style="background-color: rgba(3, 7, 18, 0.4);">
+            <div class="card-title">Latência dos Cards</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Card</th>
+                  <th class="text-right">p95</th>
+                  <th class="text-right">p99</th>
+                  <th class="text-right">Max</th>
+                </tr>
+              </thead>
+              <tbody class="td-mono">
+                <tr>
+                  <td>card_impostos</td>
+                  <td class="text-right">3193ms</td>
+                  <td class="text-right text-amber">5292ms</td>
+                  <td class="text-right text-red">15705ms</td>
+                </tr>
+                <tr>
+                  <td>card_notas_fiscais</td>
+                  <td class="text-right">2296ms</td>
+                  <td class="text-right text-amber">5499ms</td>
+                  <td class="text-right text-red">23080ms</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p style="font-size: 12px; color: var(--text-muted); padding-top: 0.25rem;">
+          O código mostra chamadas síncronas de faturamento/notas em <code>FaturamentoService.buscarFaturamento()</code>, incluindo chamada ao monólito e <code>NFeAPI.getFaturamentoMensal</code>.
+        </p>
+
+        <div class="highlight-box quickwins-box">
+          <div class="highlight-title quickwins-title">Quickwins</div>
+          <ul class="highlight-list">
+            <li>Cache curto por empresa para dados de faturamento dos cards, 30–60s.</li>
+            <li>Timeout/fallback por card para não travar o init inteiro.</li>
+            <li>Lazy load para <code>card_notas_fiscais</code> e <code>card_impostos</code>.</li>
+            <li>Instrumentar separadamente <code>faturamentoMensal</code> e <code>NFeAPI.getFaturamentoMensal</code>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Infraestrutura -->
+    <section class="section-block">
+      <h2 class="section-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><rect x="4" y="4" width="16" height="16" rx="2" /><rect x="9" y="9" width="6" height="6" /><line x1="9" y1="1" x2="9" y2="4" /><line x1="15" y1="1" x2="15" y2="4" /><line x1="9" y1="20" x2="9" y2="23" /><line x1="15" y1="20" x2="15" y2="23" /><line x1="20" y1="9" x2="23" y2="9" /><line x1="20" y1="15" x2="23" y2="15" /><line x1="1" y1="9" x2="4" y2="9" /><line x1="1" y1="15" x2="4" y2="15" /></svg>
+        5. Infraestrutura
+      </h2>
+      <div class="card" style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <p style="font-size: 13px; color: var(--text);">
+          Cold start não explica o Apdex geral do <code>plataforma-web</code>, mas aparece em outliers de dependências.
+        </p>
+        <p style="font-size: 12px; color: var(--text-muted); background-color: rgba(3, 7, 18, 0.4); border: 1px solid var(--border); padding: 0.75rem; border-radius: 0.375rem;">
+          <strong>Evidência:</strong> <code>importacao-notas-worker</code> teve 191 requests com pending na amostra de emissão; <code>faturamento-worker /simuladores/fator-r</code> tem p95 baixo, mas outliers com pending.
+        </p>
+
+        <div class="highlight-box quickwins-box" style="margin-top: 0.5rem;">
+          <div class="highlight-title quickwins-title">Quickwins</div>
+          <ul class="highlight-list">
+            <li>Avaliar <code>min_idle_instances</code> primeiro no <code>importacao-notas-worker</code>.</li>
+            <li>Avaliar <code>min_idle_instances</code> no <code>faturamento-worker</code> apenas se os outliers forem relevantes para horários críticos.</li>
+            <li>Não tratar escala do <code>plataforma-web</code> como causa principal sem nova evidência.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prioridade recomendada -->
+    <section class="section-block">
+      <h2 class="section-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><path d="m9 11-4 4 4 4"/><path d="m15 13 4-4-4-4"/><path d="m19 9-4 4 4 4"/><path d="m5 15 4-4-4-4"/></svg>
+        6. Prioridade recomendada
+      </h2>
+      <div class="card">
+        <ol>
+          <li>
+            <strong>Novo emissor:</strong> timeout controlado + investigação no <code>importacao-notas-worker</code>.
+          </li>
+          <li>
+            <strong>Dashboard:</strong> cache curto + timeout/fallback/lazy load nos cards caros.
+          </li>
+          <li>
+            <strong>Impostos:</strong> instrumentação por etapa antes de mexer em arquitetura.
+          </li>
+          <li>
+            <strong>Infra:</strong> ajuste de min instances somente nos serviços com pending comprovado.
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>Análise de SLA de Apdex baseada em logs de transação e trace distribuído do sistema plataforma-web</p>
+      <p>Referência: Julho de 2026</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

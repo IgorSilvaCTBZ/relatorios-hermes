@@ -15,11 +15,13 @@ export default function App() {
       
       {/* Top action bar (Hidden on Print) */}
       <nav className="border-b border-slate-900 sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md print:hidden">
-        <div className="max-w-3xl mx-auto flex justify-between items-center py-3 px-6 text-xs">
+        <div className="max-w-3xl mx-auto flex flex-row justify-between items-center py-3 px-6 gap-3 text-xs">
+          
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            <span className="font-medium tracking-tight text-slate-300">Hermes — Relatório de Custos</span>
+            <span className="font-bold tracking-tight text-slate-200">Hermes — Relatório de Custos</span>
           </div>
+
           <div>
             <button
               id="btn-print-report"
@@ -37,27 +39,27 @@ export default function App() {
       {/* Main Report Container */}
       <main className="max-w-3xl mx-auto px-6 py-10 sm:py-14 print:py-0 print:px-0">
         
-        {/* Document Header */}
-        <header className="border-b border-slate-900 pb-6 mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 print:border-slate-300">
-          <div>
-            <span className="text-[10px] font-bold text-blue-400 tracking-wider uppercase font-mono block mb-1">
-              Demonstrativo Financeiro Gerencial
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-50 print:text-black">
-              Relatório Executivo de Custos Estimados
-            </h1>
-            <p className="text-sm text-slate-400 mt-1 font-medium print:text-slate-600">
-              Hermes | Junho de 2026
-            </p>
-          </div>
-          <div className="text-left sm:text-right font-mono text-[11px] text-slate-400 print:text-slate-600 leading-relaxed">
-            <p>Emissão: 06/07/2026</p>
-            <p>Referência: 1 USD = R$ {usdToBrl.toFixed(2)}</p>
-          </div>
-        </header>
-
         <div className="space-y-10">
           
+          {/* Document Header */}
+          <header className="border-b border-slate-900 pb-6 mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 print:border-slate-300">
+            <div>
+              <span className="text-[10px] font-bold text-blue-400 tracking-wider uppercase font-mono block mb-1">
+                Demonstrativo Financeiro Gerencial
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-50 print:text-black">
+                Relatório Executivo de Custos Estimados
+              </h1>
+              <p className="text-sm text-slate-400 mt-1 font-medium print:text-slate-600">
+                Hermes | Junho de 2026
+              </p>
+            </div>
+            <div className="text-left sm:text-right font-mono text-[11px] text-slate-400 print:text-slate-600 leading-relaxed">
+              <p>Emissão: 06/07/2026</p>
+              <p>Referência: 1 USD = R$ {usdToBrl.toFixed(2)}</p>
+            </div>
+          </header>
+
           {/* Section 1: Resumo Executivo */}
           <section id="resumo-executivo" className="space-y-3">
             <h2 className="text-[11px] font-bold tracking-wider uppercase text-slate-400 font-mono flex items-center gap-1.5">
@@ -67,13 +69,13 @@ export default function App() {
             <div className="bg-slate-900/30 border border-slate-900 rounded-lg p-5 leading-relaxed text-sm text-slate-300 space-y-3 print:bg-slate-50 print:border-slate-200 print:text-slate-800">
               <ul className="list-disc pl-5 space-y-2 text-xs text-slate-300 print:text-slate-700">
                 <li>
-                  O principal custo diretamente atribuível ao Hermes em junho de 2026 foi <code className="bg-slate-900/80 px-1.5 py-0.5 rounded font-mono text-[11px] text-blue-300 border border-slate-800/80 print:bg-slate-100 print:border-slate-200 print:text-blue-800">Vertex AI</code>.
+                  O principal custo diretamente atribuível ao Hermes em junho de 2026 foi <code className="bg-slate-900/80 px-1.5 py-0.5 rounded font-mono text-[11px] text-blue-300 border border-slate-800/80 print:bg-slate-100 print:border-slate-200 print:text-blue-850">Vertex AI</code>.
                 </li>
                 <li>
-                  O custo operacional observado de <code className="bg-slate-900/80 px-1.5 py-0.5 rounded font-mono text-[11px] text-slate-300 border border-slate-800/80 print:bg-slate-100 print:border-slate-200 print:text-slate-800">Cloud Run</code> para o endpoint analisado foi baixo.
+                  O custo operacional observado de <code className="bg-slate-900/80 px-1.5 py-0.5 rounded font-mono text-[11px] text-slate-300 border border-slate-800/80 print:bg-slate-100 print:border-slate-200 print:text-slate-850">Cloud Run</code> para o endpoint analisado foi baixo.
                 </li>
                 <li>
-                  <code className="bg-slate-900/80 px-1.5 py-0.5 rounded font-mono text-[11px] text-slate-300 border border-slate-800/80 print:bg-slate-100 print:border-slate-200 print:text-slate-800">Cloud Run Functions</code> apareceu como custo relevante na billing account, mas não foi atribuído automaticamente ao Hermes.
+                  <code className="bg-slate-900/80 px-1.5 py-0.5 rounded font-mono text-[11px] text-slate-300 border border-slate-800/80 print:bg-slate-100 print:border-slate-200 print:text-slate-850">Cloud Run Functions</code> apareceu como custo relevante na billing account, mas não foi atribuído automaticamente ao Hermes.
                 </li>
                 <li>
                   Este relatório apresenta uma visão executiva simplificada, não um fechamento contábil.
@@ -202,7 +204,7 @@ export default function App() {
 
             {/* Destaque textual */}
             <div className="bg-blue-950/20 border border-blue-900/50 rounded-lg p-4 text-xs text-blue-200 space-y-1.5 print:bg-slate-50 print:border-slate-200 print:text-slate-800">
-              <div className="flex items-center gap-2 font-semibold text-blue-400 print:text-blue-800">
+              <div className="flex items-center gap-2 font-semibold text-blue-400 print:text-blue-850">
                 <Info size={14} className="shrink-0" />
                 <span>Análise de Concentração de Gastos</span>
               </div>
@@ -245,17 +247,17 @@ export default function App() {
             </div>
           </section>
 
-        </div>
+          {/* Small Footer */}
+          <footer className="border-t border-slate-900 pt-6 mt-14 text-center text-[10px] text-slate-500 font-mono space-y-1 print:border-slate-300 print:text-slate-500">
+            <p>
+              Baseado em billing agregado da conta e dados observados no Cloud Logging
+            </p>
+            <p>
+              Referência: Junho de 2026
+            </p>
+          </footer>
 
-        {/* Small Footer */}
-        <footer className="border-t border-slate-900 pt-6 mt-14 text-center text-[10px] text-slate-500 font-mono space-y-1 print:border-slate-300 print:text-slate-500">
-          <p>
-            Baseado em billing agregado da conta e dados observados no Cloud Logging
-          </p>
-          <p>
-            Referência: Junho de 2026
-          </p>
-        </footer>
+        </div>
 
       </main>
     </div>
